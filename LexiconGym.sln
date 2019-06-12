@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LexiconGym", "LexiconGym\LexiconGym.csproj", "{27A387B1-F0C5-4592-A2BF-C941081F74BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LexiconGym.UnitTests", "LexiconGym.UnitTests\LexiconGym.UnitTests.csproj", "{2A7B5994-937F-4082-98A9-4C2B6DCF8031}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{27A387B1-F0C5-4592-A2BF-C941081F74BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27A387B1-F0C5-4592-A2BF-C941081F74BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27A387B1-F0C5-4592-A2BF-C941081F74BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27A387B1-F0C5-4592-A2BF-C941081F74BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A7B5994-937F-4082-98A9-4C2B6DCF8031}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A7B5994-937F-4082-98A9-4C2B6DCF8031}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A7B5994-937F-4082-98A9-4C2B6DCF8031}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A7B5994-937F-4082-98A9-4C2B6DCF8031}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8268C628-286F-4FE7-BB3F-6CF90537352E}
+	EndGlobalSection
+EndGlobal
