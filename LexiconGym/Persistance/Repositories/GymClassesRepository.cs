@@ -18,9 +18,19 @@ namespace LexiconGym.Persistance.Repositories
             this.db = db;
         }
 
+        public void Add(GymClass gymClass)
+        {
+            db.Add(gymClass);
+        }
+
         public async Task<IEnumerable<GymClass>> GetAllAsync()
         {
             return await db.GymClass.ToListAsync();
+        }
+
+        public async Task<GymClass> GetAsync(int? id)
+        {
+            return await db.GymClass.FindAsync(id);
         }
     }
 }

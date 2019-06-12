@@ -27,46 +27,45 @@ namespace LexiconGym.Controllers
         }
 
         //// GET: GymClasses/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var gymClass = await _context.GymClass
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (gymClass == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var gymClass = await repository.GetAsync(id);
+            if (gymClass == null)
+            {
+                return NotFound();
+            }
 
-        //    return View(gymClass);
-        //}
+            return View(gymClass);
+        }
 
         //// GET: GymClasses/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
+        public IActionResult Create()
+        {
+            return View();
+        }
 
         //// POST: GymClasses/Create
         //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,Name,StartTime,Duration,Description")] GymClass gymClass)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(gymClass);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(gymClass);
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,Name,StartTime,Duration,Description")] GymClass gymClass)
+        {
+            if (ModelState.IsValid)
+            {
+                repository.Add(gymClass);
+               // await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(gymClass);
+        }
 
-        //// GET: GymClasses/Edit/5
+        // GET: GymClasses/Edit/5
         //public async Task<IActionResult> Edit(int? id)
         //{
         //    if (id == null)
