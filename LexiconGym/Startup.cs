@@ -15,6 +15,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using LexiconGym.Core.Repositories;
 using LexiconGym.Persistance.Repositories;
+using LexiconGym.Core;
+using LexiconGym.Persistance;
 
 namespace LexiconGym
 {
@@ -45,7 +47,7 @@ namespace LexiconGym
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddScoped<IGymClassesRepository, GymClassesRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

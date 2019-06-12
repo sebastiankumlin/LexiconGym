@@ -8,22 +8,23 @@ using Microsoft.EntityFrameworkCore;
 using LexiconGym.Core.Models;
 using LexiconGym.Data;
 using LexiconGym.Core.Repositories;
+using LexiconGym.Core;
 
 namespace LexiconGym.Controllers
 {
     public class GymClassesController : Controller
     {
-        private readonly IGymClassesRepository repository;
+        private readonly IUnitOfWork unitOfWork;
 
-        public GymClassesController(IGymClassesRepository repository)
+        public GymClassesController(IUnitOfWork unitOfWork)
         {
-            this.repository = repository;
+            this.unitOfWork = unitOfWork;
         }
 
         // GET: GymClasses
         public async Task<IActionResult> Index()
         {
-            return View(await repository.GetAllAsync());
+            return View(await unitOfWork.GymClasses.GetAllAsync());
         }
 
         //// GET: GymClasses/Details/5
@@ -34,7 +35,7 @@ namespace LexiconGym.Controllers
                 return NotFound();
             }
 
-            var gymClass = await repository.GetAsync(id);
+            var gymClass = await unitOfWork.GymClasses.GetAsync(id);
             if (gymClass == null)
             {
                 return NotFound();
@@ -58,8 +59,8 @@ namespace LexiconGym.Controllers
         {
             if (ModelState.IsValid)
             {
-                repository.Add(gymClass);
-               // await _context.SaveChangesAsync();
+                unitOfWork.GymClasses.Add(gymClass);
+                await unitOfWork.CompleteAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(gymClass);

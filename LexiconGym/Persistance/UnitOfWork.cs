@@ -1,4 +1,5 @@
-﻿using LexiconGym.Core.Repositories;
+﻿using LexiconGym.Core;
+using LexiconGym.Core.Repositories;
 using LexiconGym.Data;
 using LexiconGym.Persistance.Repositories;
 using System;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LexiconGym.Persistance
 {
-    public class UnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext db;
         public IGymClassesRepository GymClasses { get; set; }
