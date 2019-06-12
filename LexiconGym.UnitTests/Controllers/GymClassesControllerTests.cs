@@ -1,4 +1,5 @@
 using LexiconGym.Controllers;
+using LexiconGym.Core;
 using LexiconGym.Core.Models;
 using LexiconGym.Core.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,9 @@ namespace LexiconGym.UnitTests.Controllers
         public void SetUp()
         {
             repository = new Mock<IGymClassesRepository>();
-            controller = new GymClassesController(repository.Object);
+            var mockUoW = new Mock<IUnitOfWork>();
+            mockUoW.Setup(u => u.GymClasses).Returns(repository.Object);
+            controller = new GymClassesController(mockUoW.Object);
         }
 
         private List<GymClass> GetGymClassList()
@@ -89,6 +92,16 @@ namespace LexiconGym.UnitTests.Controllers
         {
             var result = controller.Create() as ViewResult;
             Assert.IsNull(result.ViewName);
+        }
+
+        [TestMethod]
+        public void Edit_ReciveNullId_ShouldReturnNotFoundStatusCode()
+        {
+            int notFoundStatusCode = 404;
+
+            var result = (StatusCodeResult)controller.Edit(null).Result;
+
+            Assert.AreEqual(notFoundStatusCode, result.StatusCode);
         }
     }
 }
