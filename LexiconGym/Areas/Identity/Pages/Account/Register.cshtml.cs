@@ -45,6 +45,12 @@ namespace LexiconGym.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
 
+            //Lägg till Name till InputModelen 2/4
+            [Required]
+            [StringLength(40)]
+            [Display(Name = "Name")]
+            public string Name { get; set; }
+
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
@@ -67,7 +73,8 @@ namespace LexiconGym.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                //Spara Namnet till AppliciationUser 4/4
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, Name = Input.Name };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
