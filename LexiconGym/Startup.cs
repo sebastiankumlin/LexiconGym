@@ -17,6 +17,7 @@ using LexiconGym.Core.Repositories;
 using LexiconGym.Persistance.Repositories;
 using LexiconGym.Core;
 using LexiconGym.Persistance;
+using LexiconGym.Core.Models;
 
 namespace LexiconGym
 {
@@ -43,7 +44,7 @@ namespace LexiconGym
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<ApplicationUser>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
