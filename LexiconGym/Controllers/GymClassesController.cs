@@ -48,6 +48,7 @@ namespace LexiconGym.Controllers
         }
 
         //// GET: GymClasses/Create
+        [Authorize(Roles ="Admin")]
         public IActionResult Create()
         {
             return View();
