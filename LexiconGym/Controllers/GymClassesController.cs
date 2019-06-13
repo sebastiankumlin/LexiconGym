@@ -9,9 +9,11 @@ using LexiconGym.Core.Models;
 using LexiconGym.Data;
 using LexiconGym.Core.Repositories;
 using LexiconGym.Core;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LexiconGym.Controllers
 {
+    [Authorize]
     public class GymClassesController : Controller
     {
         private readonly IUnitOfWork unitOfWork;
@@ -21,6 +23,7 @@ namespace LexiconGym.Controllers
             this.unitOfWork = unitOfWork;
         }
 
+        [AllowAnonymous]
         // GET: GymClasses
         public async Task<IActionResult> Index()
         {
