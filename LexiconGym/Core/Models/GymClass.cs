@@ -13,5 +13,7 @@ namespace LexiconGym.Core.Models
         public TimeSpan Duration { get; set; }
         public DateTime EndTime => StartTime + Duration;
         public string Description { get; set; }
+
+        public ICollection<ApplicationUserGymClass> AttendingMembers { get; set; }
     }
 }

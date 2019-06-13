@@ -13,6 +13,18 @@ namespace LexiconGym.Data
             : base(options)
         {
         }
-        public DbSet<LexiconGym.Core.Models.GymClass> GymClass { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<ApplicationUserGymClass>()
+                .HasKey(k => new
+                {
+                    k.ApplicationUserId,
+                    k.GymClassId
+                });
+        }
+        public DbSet<GymClass> GymClass { get; set; }
     }
 }
