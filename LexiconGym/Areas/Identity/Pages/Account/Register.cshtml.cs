@@ -20,7 +20,6 @@ namespace LexiconGym.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly RoleManager<IdentityRole> roleManager;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -33,7 +32,6 @@ namespace LexiconGym.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            this.roleManager = roleManager;
         }
 
         [BindProperty]
