@@ -36,14 +36,17 @@ namespace LexiconGym.UnitTests.Controllers
                       Id =1,
                        Name = "Spinning",
                         Description = "Beginner",
-                        StartTime = DateTime.Now
+                        StartTime = DateTime.Now,
+                         Duration = new TimeSpan(1,0,0)
+                       
                 },
                 new GymClass
                 {
                       Id =2,
                        Name = "CrossFit",
                         Description = "Beginner",
-                        StartTime = DateTime.Now
+                        StartTime = DateTime.Now,
+                        Duration = new TimeSpan(1,0,0)
                 }
             };
         }
@@ -102,6 +105,18 @@ namespace LexiconGym.UnitTests.Controllers
             var result = (StatusCodeResult)controller.Edit(null).Result;
 
             Assert.AreEqual(notFoundStatusCode, result.StatusCode);
+        }
+
+        [TestMethod]
+        public void Edit_RedirectToIndexWhenUpdateOK()
+        {
+            var gymClass = GetGymClassList()[0];
+            var expected = "Index";
+
+            var result = (RedirectToActionResult)controller.Edit(gymClass.Id, gymClass).Result;
+            var actual = result.ActionName;
+           
+            Assert.AreEqual(expected, actual);
         }
     }
 }

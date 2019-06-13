@@ -86,7 +86,7 @@ namespace LexiconGym.Controllers
         //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+       // [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartTime,Duration,Description")] GymClass gymClass)
         {
             if (id != gymClass.Id)
@@ -98,10 +98,8 @@ namespace LexiconGym.Controllers
             {
                 try
                 {
-                    //På Repositoriet
-                  //  _context.Update(gymClass);
-                    //UnitOfWork
-                  //  await _context.SaveChangesAsync();
+                    unitOfWork.GymClasses.Update(gymClass);
+                    await unitOfWork.CompleteAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -119,39 +117,38 @@ namespace LexiconGym.Controllers
             return View(gymClass);
         }
 
-        //// GET: GymClasses/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: GymClasses/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var gymClass = await _context.GymClass
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (gymClass == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var gymClass = await unitOfWork.GymClasses.GetAsync(id);
+            if (gymClass == null)
+            {
+                return NotFound();
+            }
 
-        //    return View(gymClass);
-        //}
+            return View(gymClass);
+        }
 
         //// POST: GymClasses/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var gymClass = await _context.GymClass.FindAsync(id);
-        //    _context.GymClass.Remove(gymClass);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var gymClass = await unitOfWork.GymClasses.GetAsync(id);
+            unitOfWork.GymClasses.Remove(gymClass);
+            await unitOfWork.CompleteAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
         private bool GymClassExists(int id)
         {
             //Ny metod på Repositoriet
-             return _context.GymClass.Any(e => e.Id == id);
+             return unitOfWork.GymClasses.Any(id);
         }
     }
 }

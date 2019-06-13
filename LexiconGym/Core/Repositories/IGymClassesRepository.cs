@@ -9,5 +9,8 @@ namespace LexiconGym.Core.Repositories
         Task<IEnumerable<GymClass>> GetAllAsync();
         Task<GymClass> GetAsync(int? id);
         void Add(GymClass gymClass);
+        bool Any(int id);
+        void Update(GymClass gymClass);
+        void Remove(GymClass gymClass);
     }
 }

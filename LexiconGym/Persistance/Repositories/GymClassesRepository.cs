@@ -23,6 +23,11 @@ namespace LexiconGym.Persistance.Repositories
             db.Add(gymClass);
         }
 
+        public bool Any(int id)
+        {
+           return db.GymClass.Any(g => g.Id == id);
+        }
+
         public async Task<IEnumerable<GymClass>> GetAllAsync()
         {
             return await db.GymClass.ToListAsync();
@@ -31,6 +36,16 @@ namespace LexiconGym.Persistance.Repositories
         public async Task<GymClass> GetAsync(int? id)
         {
             return await db.GymClass.FindAsync(id);
+        }
+
+        public void Remove(GymClass gymClass)
+        {
+            db.GymClass.Remove(gymClass);
+        }
+
+        public void Update(GymClass gymClass)
+        {
+            db.GymClass.Update(gymClass);
         }
     }
 }
