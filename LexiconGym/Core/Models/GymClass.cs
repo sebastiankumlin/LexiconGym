@@ -14,6 +14,6 @@ namespace LexiconGym.Core.Models
         public DateTime EndTime => StartTime + Duration;
         public string Description { get; set; }
 
-        public ICollection<ApplicationUserGymClass> AttendingMembers { get; set; }
+        public ICollection<ApplicationUserGymClass> AttendingMembers { get; set; } //int? id
     }
 }

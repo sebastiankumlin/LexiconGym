@@ -44,12 +44,12 @@ namespace LexiconGym
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<ApplicationUser>()
-                .AddRoles<IdentityRole>()
+            services.AddDefaultIdentity<ApplicationUser>() //could be IdentityUser
+                .AddRoles<IdentityRole>() //could be customRole
                 .AddDefaultUI(UIFramework.Bootstrap4)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>(); //could and could not implement IdentityDbContext
 
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>(); //en UoW för varje request. Varför läggs denna till efter AddDbContext (dbms)?
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

@@ -6,6 +6,7 @@ namespace LexiconGym.Core
     public interface IUnitOfWork
     {
         IGymClassesRepository GymClasses { get; set; }
+        IApplicationUserGymClassRepository UserGymClass { get; set; }
 
         Task CompleteAsync();
     }

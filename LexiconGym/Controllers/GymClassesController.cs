@@ -10,6 +10,8 @@ using LexiconGym.Data;
 using LexiconGym.Core.Repositories;
 using LexiconGym.Core;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using LexiconGym.Persistance.Repositories;
 
 namespace LexiconGym.Controllers
 {
@@ -17,10 +19,57 @@ namespace LexiconGym.Controllers
     public class GymClassesController : Controller
     {
         private readonly IUnitOfWork unitOfWork;
+        private readonly UserManager<ApplicationUser> userManager; //Min slav!
 
-        public GymClassesController(IUnitOfWork unitOfWork)
+        public GymClassesController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
         {
             this.unitOfWork = unitOfWork;
+            this.userManager = userManager;
+        }
+
+        [Authorize(Roles = "Member")]
+        public async Task<IActionResult> BookingToggle(int? id) //id måste vara definierat någonstans för att kunna skickas in
+        {
+            //matchning måste ske mellan användare och gymlektioner, antingen genom navprop på user, kopplingstabell eller genom jämförelse på alla gymlektioner
+            //hur ska en member kunna boka in sig på gymlektioner genom UI? Det finns ingen sådan funktionalitet just nu.
+
+            if (id == null) return NotFound();
+            
+            var currentUser = await userManager.GetUserAsync(User);
+            //GymClass innehåller en ICollection för ApplicationUserGymClass.. Alla dom har GymClassId - GymClass innehåller en ApplicationUserId - så vi kan titta på GymClass-klass för att 
+            var currentGymClass = await unitOfWork.GymClasses.GetWithAttendingMembers(id); //Skapa ny metod, den förra hette GetAsync, vi får //I GymClass kallar vi det för attending members - det är vår navigation property och behöver kopplingstabellen för att fungera
+            //Nu vill vi titta på om någon av GymPassNycklarna innehåller User GUID
+
+            if (currentGymClass == null) return NotFound();
+
+            var attending = currentGymClass
+                .AttendingMembers
+                .FirstOrDefault(banana => banana.ApplicationUserId == currentUser.Id
+                && banana.GymClassId == currentGymClass.Id); //det ska ju vara en nyckel som vi tar fram så det ska vara unikt - queryn gör så att så är fallet                
+
+            if(attending == null)
+            {
+                var book = new ApplicationUserGymClass
+                {
+                    ApplicationUserId = currentUser.Id,
+                    GymClassId = currentGymClass.Id
+                };
+
+                unitOfWork.UserGymClass.Add(book);
+                await unitOfWork.CompleteAsync(); //null har vi skapat en ny kompositnyckel -eftersom de ska sitta ihop
+
+                
+            } else
+            {
+                unitOfWork.UserGymClass.Remove(attending); //vi gik ju till vår attendingmembersoch selejterades
+                await unitOfWork.CompleteAsync();
+            }
+            return RedirectToAction(nameof(Index))
+            //var allClasses = await unitOfWork.GymClasses.GetAllAsync();
+
+
+
+            
         }
 
         [AllowAnonymous]
