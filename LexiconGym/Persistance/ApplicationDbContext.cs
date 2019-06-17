@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace LexiconGym.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string> //verkar bara tjäna Identify-funktionaliteten
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string> //base class tjänar bara Identity-funktionaliteten
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) //var är tabellerna över Users och deras Roles?
             : base(options)

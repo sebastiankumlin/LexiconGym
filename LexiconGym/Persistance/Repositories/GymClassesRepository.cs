@@ -12,7 +12,7 @@ namespace LexiconGym.Persistance.Repositories
 {
     public class GymClassesRepository : IGymClassesRepository
     {
-        private readonly ApplicationDbContext db; //här bor det en databas
+        private readonly ApplicationDbContext db; //här bor det en databas (-context)
 
         public GymClassesRepository(ApplicationDbContext db) //här skickas det in en databas-manager-instans.
         {
@@ -53,19 +53,22 @@ namespace LexiconGym.Persistance.Repositories
             return await db.GymClass.FindAsync(id); // repositoryt ska kunna leverera båda samlingar och enskilda entiteter
         }
 
+
+        
+
+        //public async GymClass GetWithAttendingMembers(int? id) //detta ska levereras till controllern så att vi kan operera på rätt GymClass. Vi måste således ha rätt GymClass - för det använder vi det aktuella Id som vi kommer få genom vyn
+        //{
+        //    return db.UserGymClass.
+        //}
+
         public void Remove(GymClass gymClass) //repositoryt måste ha den mest grundläggande db-funktionaliteten
         {
             db.GymClass.Remove(gymClass);
         }
 
-        public void Update(GymClass gymClass) //lite hjälp.
+       public void Update(GymClass gymClass) //lite hjälp.
         {
             db.GymClass.Update(gymClass);
-        }
-
-        public GymClass GetWithAttendingMembers(int id) //detta ska levereras till controllern så att vi kan operera på rätt GymClass. Vi måste således ha rätt GymClass - för det använder vi det aktuella Id som vi kommer få genom vyn
-        {
-            return db.UserGymClass.
-        }
+        }      
     }
 }

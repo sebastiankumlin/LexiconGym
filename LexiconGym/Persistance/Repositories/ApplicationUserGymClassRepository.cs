@@ -18,14 +18,14 @@ namespace LexiconGym.Persistance.Repositories
             this.db = db;
         }
 
-        public void Add(ApplicationUserGymClassRepository userGymClass)
+        public void Add(ApplicationUserGymClass userGymClass)
         {
-           db.ApplicationUserGymClass
+            db.UserGymClass.Add(userGymClass); //mitt feltänk: db.ApplicationUserGymClass
         }
 
-        public void Remove(ApplicationUserGymClassRepository userGymClass)
+        public void Remove(ApplicationUserGymClass attending)
         {
-            
+            db.UserGymClass.Remove(attending);
         }
     }
 }

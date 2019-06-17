@@ -95,7 +95,7 @@ namespace LexiconGym.Areas.Identity.Pages.Account
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
-                foreach (var error in result.Errors)
+                foreach (var error in resultAddUser.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }

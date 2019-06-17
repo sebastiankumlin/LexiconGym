@@ -42,29 +42,26 @@ namespace LexiconGym.Controllers
 
             if (currentGymClass == null) return NotFound();
 
-            var attending = currentGymClass
-                .AttendingMembers
-                .FirstOrDefault(banana => banana.ApplicationUserId == currentUser.Id
-                && banana.GymClassId == currentGymClass.Id); //det ska ju vara en nyckel som vi tar fram så det ska vara unikt - queryn gör så att så är fallet                
+            var attending = currentGymClass.AttendingMembers
+                .FirstOrDefault(u => u.ApplicationUserId == currentUser.Id
+                && u.GymClassId == id); //det ska ju vara en nyckel som vi tar fram så det ska vara unikt - queryn gör så att så är fallet                
 
             if(attending == null)
             {
-                var book = new ApplicationUserGymClass
+                var book = new ApplicationUserGymClass //upprätta en instans av klassen book.
                 {
-                    ApplicationUserId = currentUser.Id,
-                    GymClassId = currentGymClass.Id
+                    ApplicationUserId = currentUser.Id, //den har id för attendee
+                    GymClassId = currentGymClass.Id //den har id för gym lektionen
                 };
 
-                unitOfWork.UserGymClass.Add(book);
-                await unitOfWork.CompleteAsync(); //null har vi skapat en ny kompositnyckel -eftersom de ska sitta ihop
-
-                
+                unitOfWork.UserGymClass.Add(book); //unitOfWork innehåller tjänster referenser till tjänster?
+                await unitOfWork.CompleteAsync(); //null har vi skapat en ny kompositnyckel -eftersom de ska sitta ihop                
             } else
             {
                 unitOfWork.UserGymClass.Remove(attending); //vi gik ju till vår attendingmembersoch selejterades
                 await unitOfWork.CompleteAsync();
             }
-            return RedirectToAction(nameof(Index))
+            return RedirectToAction(nameof(Index));
             //var allClasses = await unitOfWork.GymClasses.GetAllAsync();
 
 

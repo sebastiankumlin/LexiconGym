@@ -14,6 +14,7 @@ namespace LexiconGym.Core.Repositories
         //void Update(GymClass gymClass);
         void Remove(GymClass gymClass);
         Task<GymClass> GetWithAttendingMembers(int? id);
+        void Update(GymClass gymClass);
 
     }
 }
