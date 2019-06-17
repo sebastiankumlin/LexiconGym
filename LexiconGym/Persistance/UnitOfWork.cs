@@ -15,7 +15,7 @@ namespace LexiconGym.Persistance
 
         public IGymClassesRepository GymClasses { get; set; }
 
-        //public IApplicationUsersRepository ApplicationUsers { get; set; } //den här tycker jag var bra
+        public IApplicationUsersRepository ApplicationUsers { get; set; } //den här tycker jag var bra
 
         public IApplicationUserGymClassRepository UserGymClass { get; set; }
 
@@ -23,7 +23,7 @@ namespace LexiconGym.Persistance
         {
             this.db = db;
             GymClasses = new GymClassesRepository(db); //här lägger jag till en ny GymClassRepository med en dbms
-            //ApplicationUsers = new ApplicationUsersRepository(db);
+            ApplicationUsers = new ApplicationUsersRepository(db);
             UserGymClass = new ApplicationUserGymClassRepository(db);
         }
 
