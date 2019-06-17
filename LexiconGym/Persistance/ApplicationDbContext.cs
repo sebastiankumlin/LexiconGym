@@ -28,5 +28,7 @@ namespace LexiconGym.Data
         }
         public DbSet<GymClass> GymClass { get; set; } //här har vi en tabell därför att det är ju bra om dbms (context) känner till att det finns
         public DbSet<ApplicationUserGymClass> UserGymClass { get; set; } //nu vet dbms att denna tabell/relation finns
+
+        //DbSet för users
     }
 }
