@@ -14,6 +14,6 @@ namespace LexiconGym.Core.Models
         public DateTime EndTime => StartTime + Duration;
         public string Description { get; set; }
 
-        public ICollection<ApplicationUserGymClass> AttendingMembers { get; set; } //int? id
+        public ICollection<ApplicationUserGymClass> AttendingMembers { get; set; } //int? id //instanser av kopplingstabellen - detta är ett navigation property. Instanser där GymClass Id:t är med. Från kopplingstabllen har vi GymCLass och ApplicationsUser. Om vi tar ThenInclude så kan vi ta med alla members som finns i kopplingstabllen. (Seb:) Vi skickar m.a.o Idt för GymClass ???
     }
 }

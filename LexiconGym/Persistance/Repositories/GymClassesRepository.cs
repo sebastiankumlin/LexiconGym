@@ -18,6 +18,7 @@ namespace LexiconGym.Persistance.Repositories
         {
             this.db = db;
         }
+        
 
         public void Add(GymClass gymClass) // här kan man operera på databasen m.h.a. EFCore. Repositoryt har sina beteenden som enligt kontrakt med repositoryts Interface. Repositoryts beteenden skapas med EFCore-funktioner.
         {
@@ -43,9 +44,12 @@ namespace LexiconGym.Persistance.Repositories
            return db.GymClass.Any(g => g.Id == id);
         }
 
-        public async Task<IEnumerable<GymClass>> GetAllAsync() //repositoryt ska kunna arbeta båda vägar
+        public async Task<IEnumerable<GymClass>> GetAllWithUsersAsync() //repositoryt ska kunna arbeta båda vägar
         {
-            return await db.GymClass.ToListAsync();
+            return await db.GymClass
+                .Include(c => c.AttendingMembers)
+                .ThenInclude(m => m.ApplicationUser)
+                .ToListAsync(); //the include function traverses the chain of relation (the tables that are related);
         }
 
         public async Task<GymClass> GetAsync(int? id)

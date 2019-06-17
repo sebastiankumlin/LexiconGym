@@ -1,7 +1,11 @@
-﻿@model IEnumerable<LexiconGym.Core.Models.GymClass>
+﻿@using Microsoft.AspNetCore.Identity
+
+@model IEnumerable<LexiconGym.Core.Models.GymClass>
+@inject  UserManager<ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = "Index";
+    var userId = UserManager.GetUserId(User);
 }
 
 <h1>Index</h1>
@@ -32,8 +36,28 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
+                    <P>
+                        @Html.DisplayFor(modelItem => item.Name)
+                        <a data-toggle="collapse" href="#memberlist-@item.Id" role="button"
+                           aria-expanded="false"><i class="fa fa-plus"></i></a>
+                        </P>
+
+                    <div class="collapse" id="memberlist-@item.Id">
+                    @if (User.IsInRole("Member"))
+                    {
+                        @foreach (var member in item.AttendingMembers.Select(relation => relation.ApplicationUser))
+                        {
+                            <div class="card">
+                                <div class="card-body text-center">
+                                  <h4 class="card-title">@member.Email</h4>
+                                    <p class="card-text">Lorem Ipsum.......................</p>
+                                    <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-info"></i></a>
+                                 </div>
+                            </div>
+                        }
+                    }
+                    </div>
+</td>
                 <td>
                     @Html.DisplayFor(modelItem => item.StartTime)
                 </td>
@@ -45,9 +69,16 @@
                 </td>
 
                 <td>
-                    @if (User.IsInRole("Member"))
+
+                    @if (User.IsInRole("Member")) //visa länken eller inte!
                     {
-                        <a asp-action="BookingToggle" asp-route-id="@item.Id">Toggle</a>
+                        @if (item.AttendingMembers.Any(m => m.ApplicationUserId == userId)){
+                            <a asp-action="BookingToggle" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Skip</a>
+                        }
+                        else
+                        {
+                            <a asp-action="BookingToggle" asp-route-id="@item.Id" class="btn btn-success bt-sm">Book</a>
+                        }
                     }
                     @if (User.IsInRole("Admin"))
                     {
@@ -56,6 +87,7 @@
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> <span>|</span>
                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     }
+
                 </td>
             </tr>
         }

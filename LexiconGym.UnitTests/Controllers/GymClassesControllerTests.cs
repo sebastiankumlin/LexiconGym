@@ -24,7 +24,7 @@ namespace LexiconGym.UnitTests.Controllers
             repository = new Mock<IGymClassesRepository>();
             var mockUoW = new Mock<IUnitOfWork>();
             mockUoW.Setup(u => u.GymClasses).Returns(repository.Object);
-            controller = new GymClassesController(mockUoW.Object);
+            //controller = new GymClassesController(mockUoW.Object);
         }
 
         private List<GymClass> GetGymClassList()
@@ -63,7 +63,7 @@ namespace LexiconGym.UnitTests.Controllers
         public void Index_Returns_AllGymClasses()
         {
             var expected = GetGymClassList();
-            repository.Setup(g => g.GetAllAsync()).ReturnsAsync(expected);
+            repository.Setup(g => g.GetAllWithUsersAsync()).ReturnsAsync(expected);
 
             var viewResult = controller.Index().Result as ViewResult;
             var actual = (IEnumerable<GymClass>)viewResult.Model;

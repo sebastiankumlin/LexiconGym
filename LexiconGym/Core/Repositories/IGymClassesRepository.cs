@@ -7,7 +7,7 @@ namespace LexiconGym.Core.Repositories
 {
     public interface IGymClassesRepository
     {
-        Task<IEnumerable<GymClass>> GetAllAsync();
+        Task<IEnumerable<GymClass>> GetAllWithUsersAsync();
         Task<GymClass> GetAsync(int? id);
         void Add(GymClass gymClass);
         bool Any(int id);
