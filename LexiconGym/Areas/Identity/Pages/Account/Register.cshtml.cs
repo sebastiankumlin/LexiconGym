@@ -25,7 +25,8 @@ namespace LexiconGym.Areas.Identity.Pages.Account
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender
+           )
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -77,7 +78,7 @@ namespace LexiconGym.Areas.Identity.Pages.Account
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, Name = Input.Name };
                 var resultAddUser = await _userManager.CreateAsync(user, Input.Password);
                 var resultAddRole = await _userManager.AddToRoleAsync(user, "Member");
-                if (resultAddUser.Succeeded)
+                if (resultAddUser.Succeeded && resultAddRole.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
@@ -94,13 +95,7 @@ namespace LexiconGym.Areas.Identity.Pages.Account
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
-
-                foreach (var error in resultAddUser.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
-
-                foreach (var error in resultAddRole.Errors)
+                foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
